@@ -171,25 +171,39 @@ public class TwitterCollector {
 			e.printStackTrace();
 		}
 	}
-	public void searchTweet(List<double[]> locations){
-		for(double[] location:locations){
-			GeoLocation l=new GeoLocation(location[0], location[1]);
-			
-			GeoQuery g=new GeoQuery(l);
-			
-			try {
-				ResponseList<Place> resultList=twitter.searchPlaces(g);
-
-				for(Place place:resultList){
-					RateLimitStatus rs=place.getRateLimitStatus();
-					System.out.println(place.getName());
-				}
-			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	public void searchTweet(double longitude,double latitude){
 		
+//			GeoLocation l=new GeoLocation(latitude,longitude);
+//			
+//			GeoQuery g=new GeoQuery(l);
+//			
+//			try {
+//				ResponseList<Place> resultList=twitter.searchPlaces(g);
+//
+//				for(Place place:resultList){
+//					RateLimitStatus rs=place.getRateLimitStatus();
+//					System.out.println(rs.toString());;
+//					
+//					//System.out.println(place.getFullName());
+//				}
+//			} catch (TwitterException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		
+			Query q=new Query("South Bend");
+		try {
+			QueryResult qResult=	twitter.search(q);
+			List<Status> list=qResult.getTweets();
+			for(Status s:list){
+				//System.out.println(s.getText());
+
+				System.out.println(s.getGeoLocation());
+			}
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	public static void main(String[] args) {
@@ -205,8 +219,9 @@ public class TwitterCollector {
 //		}
 
 		TwitterCollector t=new TwitterCollector();
+		t.searchTweet(-86.33, 41.63);
 		//t.searchTweet("Indiana", System.getProperty("user.dir")+"/file/tweet_keyword.txt");
-		t.searchTweet("weather,", System.getProperty("user.dir")+"/file/tweet_keyword.txt");
+		//t.searchTweet("weather,", System.getProperty("user.dir")+"/file/tweet_keyword.txt");
 		//long[] ids={34373370,26257166,12579252};	
 		//t.processUsersProfile(ids,System.getProperty("user.dir")+"/file/user_profile.txt");
 		//t.processSocialNet(ids, System.getProperty("user.dir")+"/file/followers_and_friends.txt");
