@@ -3,9 +3,11 @@ package edu.marshall.twitterAPI;
 import java.awt.image.DataBuffer;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,7 @@ private URL url;
 			con.setRequestProperty("Content-Type", req.getConf().getContentType());
 			//set authentication
 			String str= getAuthString(auth);
-			con.addRequestProperty("Authorization",BASE64Encoder.encode(str.getBytes()));
+			con.addRequestProperty("Authorization",str);
 			//System.out.println("*****"+con.getRequestProperty("Authorization"));
 			
 		} catch (MalformedURLException e) {
@@ -50,14 +52,24 @@ private URL url;
 //		authString.append("\noauth_timestamp='"+auth.getTimeStamp()+"',");
 //		authString.append("\noauth_token='"+auth.getOauthToken()+"',");
 //		authString.append("\noauth_version='"+Authentication.oauthVersion+"'");
-		StringBuilder authString=new StringBuilder("OAuth oauth_consumer_key="+auth.getOauthConsumerKey()+",");
-		authString.append("oauth_nonce="+auth.getOauthNonce()+",");
-		authString.append("oauth_signature="+auth.getOauthSignature()+",");
-		authString.append("oauth_signature_method="+Authentication.oauthSignatureMethod+",");
-		authString.append("oauth_timestamp="+auth.getTimeStamp()+",");
-		authString.append("oauth_token="+auth.getOauthToken()+",");
-		authString.append("oauth_version="+Authentication.oauthVersion);
-		return authString.toString();
+		StringBuilder authString=new StringBuilder("OAuth oauth_consumer_key=\""+auth.getOauthConsumerKey()+"\",");
+		authString.append("oauth_nonce=\""+auth.getOauthNonce()+"\",");
+		authString.append("oauth_signature=\""+auth.getOauthSignature()+"\",");
+		authString.append("oauth_signature_method=\""+Authentication.oauthSignatureMethod+"\",");
+		authString.append("oauth_timestamp=\""+auth.getTimeStamp()+"\",");
+		authString.append("oauth_token=\""+auth.getOauthToken()+"\",");
+		authString.append("oauth_version=\""+Authentication.oauthVersion+"\"");
+		
+		
+		try {
+			String str= URLEncoder.encode(authString.toString(), "UTF-8");
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&"+str);
+			return str;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	
@@ -76,9 +88,9 @@ private URL url;
 			int len=0;
 			StringBuilder str=new StringBuilder();
 			while((len=in.read(b))!=-1){
-				str.append((char)in.read(b, 0, len));
+				System.out.print((char)in.read(b, 0, len));
 			}
-			System.out.println("&&&"+str.toString());
+			//System.out.println("&&&"+str.toString());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,7 +133,7 @@ private URL url;
 	}
 
 public static void main(String[] args) {
-	String url="https://api.twitter.com/1.1/update.json?statue=kkk";
+	String url="https://api.twitter.com/1.1/users/search.json";
 	HttpRequest req=new HttpRequest(url, null);
 	System.out.println(req.getConf().getTimeOut());
 	Authentication auth=new Authentication(url);

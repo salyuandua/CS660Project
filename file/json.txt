@@ -1,0 +1,15 @@
+OAuth oauth_consumer_key="tyJICJzKjB5win4Pf8eXMLrYV",
+oauth_signature_method="HMAC-SHA1",
+oauth_timestamp="1511313129",
+oauth_nonce="336794565",
+oauth_version="1.0",
+oauth_token="912462260139970560-f5JoEBp20NSgjzeRIqUt863PmgE76UA",
+oauth_signature="cpDDr06JoYetETp5B7toE2BmhyU%3D"
+****************************************************
+OAuth oauth_consumer_key="tyJICJzKjB5win4Pf8eXMLrYV",
+oauth_nonce="f419f77993ba4f809cb6b71d1c4e0aa6",
+oauth_signature="kHF2OOtxpVuOb7yrKNDFYw2oVAI=",
+oauth_signature_method="HMAC-SHA1",
+oauth_timestamp="1511313372",
+oauth_token="912462260139970560-f5JoEBp20NSgjzeRIqUt863PmgE76UA",
+oauth_version="1.0"

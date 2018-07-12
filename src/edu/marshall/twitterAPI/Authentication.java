@@ -43,7 +43,7 @@ public class Authentication {
 	}
 	
 	private void generateSignature(){
-		StringBuilder base=new StringBuilder(Configuration.constructureURL(url));
+		StringBuilder base=new StringBuilder(url);
 		base.append("&include_entities=true");
 		base.append("&oauth_consumer_key="+oauthConsumerKey);
 		base.append("&oauth_nonce="+getOauthNonce());
@@ -53,7 +53,7 @@ public class Authentication {
 		base.append("&oauth_version="+oauthVersion);
 		System.out.println(base.toString());
 		try {
-			String encodedBase="POST&"+URLEncoder.encode(base.toString(), "UTF-8");
+			String encodedBase="GET&"+URLEncoder.encode(base.toString(), "UTF-8");
 			//System.out.println(encodedBase);
 			String key=URLEncoder.encode(oauthConsumerSecret, "UTF-8")+"&"
 			+URLEncoder.encode(oauthTokenSecret, "UTF-8");
